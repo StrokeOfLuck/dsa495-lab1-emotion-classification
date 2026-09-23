@@ -27,19 +27,27 @@ To run the analysis:
 
 ### Q1. Development and evaluation data
 
+**See in Lab1:** [Split-count table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=c433329a). Read the `development`, `evaluation`, and `evaluation_percent` columns, especially joy and surprise.
+
 **Response:** The seed-495 sample has 30 development messages, five from each emotion, and 1,970 evaluation messages. Surprise is least common in evaluation (61 messages, 3.10%), while joy has 690 (35.03%). Predicting only joy therefore reaches 35.03% accuracy while recognizing none of the other five classes; macro-F1 and per-class recall help expose that failure.
 
 ### Q2. What do the tokenizers receive?
 
+**See in Lab1:** [Diagnostic messages I1–S2](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=73f57fce) and [token table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=71ff72e3). Compare I3 with I4, then S1 and S2 across both tokenizers; inspect `token_strings` and both length columns.
+
 **Response:** In I3, DistilBERT lowercases `HAPPY` to `happy`, making its seven content tokens identical to I4; BART preserves the capitalized spelling and splits it into `ĠH`, `APP`, `Y` (nine versus seven content tokens). In my S1 (`I am NOT okay with this result 😟.`), DistilBERT lowercases `NOT` and maps the emoji to `[UNK]`, whereas BART retains `ĠNOT` and represents the emoji with byte-level pieces. My S2 also splits `bittersweet` differently: DistilBERT uses `bitter`, `##sw`, `##eet`; BART uses `Ġbitters`, `weet`. Both add two special tokens to each of these examples.
 
 ### Q3. Truncation
+
+**See in Lab1:** [32-token truncation table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=862f59b2). Compare `retained_text` with `omitted_suffix` for each tokenizer.
 
 **Response:** With the artificial 32-token limit, both tokenizers stop partway through the second repetition of the ordinary train-ride description. The omitted suffix contains the entire decisive contrast, “Despite the ordinary journey, I am terrified about what happens tomorrow.” Removing `terrified` could hide strong evidence for fear, though this demonstration does not establish an actual classification error.
 
 ## 2. Specialized encoder classification
 
 ### Q4. Baseline and encoder results
+
+**See in Lab1:** [Joy baseline](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=c096f034), [encoder comparison](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=e34b02b9), and [class report and confusion matrix](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=88d75891). Find surprise under `recall` and `support`.
 
 | Method | Accuracy | Macro-F1 | Inference seconds |
 |---|---:|---:|---:|
@@ -49,6 +57,8 @@ To run the analysis:
 **Response:** DistilBERT substantially exceeds the constant baseline on both metrics. Its lowest recall is for surprise: 0.7541 over 61 messages (46 correct), so aggregate accuracy would conceal the weaker performance on this rare class.
 
 ### Q5. Three encoder errors
+
+**See in Lab1:** [High-score encoder errors](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=80cf4521). Read the full text of examples `01314`, `01377`, and `01270`, alongside their reference labels and scores.
 
 | Example ID | Reference label | Prediction | Model score | Brief observation |
 |---|---|---|---:|---|
@@ -62,6 +72,8 @@ To run the analysis:
 
 ### Q6. Label wording
 
+**See in Lab1:** [Development comparison and changed predictions](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=927fff42). Check macro-F1, the selected formulation, and example `00332`.
+
 | Candidate-label formulation | Accuracy | Macro-F1 |
 |---|---:|---:|
 | A: emotion names | 0.5000 | 0.4644 |
@@ -70,6 +82,8 @@ To run the analysis:
 **Response:** The prespecified higher-macro-F1 rule selected B, the expanded descriptions (0.5523 versus 0.4644). For `emotion_test_00332`, “feel humiliated” changed from surprise under A to sadness under B, matching the reference. Because the development set contains only five messages per class, a few examples can swing macro-F1 and the chosen wording may not be the best formulation on new data.
 
 ### Q7. Final model comparison
+
+**See in Lab1:** [Three-method evaluation table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=f4eb1ebb) and [BART class report and confusion matrix](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=2fb8935b). Compare accuracy, macro-F1, and inference seconds on the same 1,970 messages.
 
 | Method | Accuracy | Macro-F1 | Inference seconds |
 |---|---:|---:|---:|
@@ -81,6 +95,8 @@ To run the analysis:
 
 ### Q8. Four model disagreements
 
+**See in Lab1:** [Disagreement counts and four example rows](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=59bd3431). Read the text and `outcome` for `00002`, `00072`, `00098`, and `00004`.
+
 | Example ID | Reference | DistilBERT | BART | Who is correct? |
 |---|---|---|---|---|
 | emotion_test_00002 | sadness | sadness | love | DistilBERT |
@@ -91,6 +107,8 @@ To run the analysis:
 **Response:** In `emotion_test_00072`, “feels weird” offers BART a plausible surprise cue, while unfamiliar bodily coordination may have led DistilBERT toward fear; the reference favors BART, though the message does not explicitly name an emotion. In `emotion_test_00098`, “heart is tortured by what i have done” supports DistilBERT's fear and BART's sadness or guilt readings, but it does not plainly express the reference anger. The “ashamed” wording in `emotion_test_00002` supports sadness despite its relational context, while the brief “vain” message in `emotion_test_00004` leaves little context. Across all disagreements, DistilBERT alone is correct in 812, BART alone in 48, and neither in 44; these cases warrant reading the text, not merely counting labels.
 
 ### Q9. Recommendation and limitations
+
+**See in Lab1:** [Final comparison](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=f4eb1ebb), [encoder errors](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=80cf4521), and [disagreement outcomes](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=59bd3431). Use the metrics together with the debatable example texts; also revisit the [30-message development table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=927fff42) for the selection limit.
 
 **Response:** I would use the specialized DistilBERT classifier for this fixed six-emotion task: its 0.9244 accuracy and 0.8803 macro-F1 exceed BART's 0.5365 and 0.4795, and it ran in 22.82 rather than 1085.14 seconds on this CPU. The 812 versus 48 single-model wins reinforce that choice, although BART recognizes the “feels weird” surprise example that DistilBERT misses. The labeled data contain debatable single-emotion references, such as joy for “very saddened”; these metrics cannot establish correctness for nuanced or multiple emotions. The evaluation uses one source test split and one tiny development selection, so it does not establish performance on other domains, new labels, or alternative prompt and checkpoint choices. Model scores were not calibrated here, and the runtime comparison excludes checkpoint loading and depends on hardware.
 
