@@ -5,6 +5,8 @@
 
 The GitHub repository is private. The Colab link opens a copy in the same Google Drive folder as `emotion.csv`. Changes saved in that Drive copy do not automatically update the GitHub notebook.
 
+**Before rerunning:** Choose **Runtime → Run all** from the top. The “See in Lab1” links only navigate to cells; a linked cell may fail if its setup cells have not run. If Drive mounting fails, upload `emotion.csv` when prompted.
+
 **Student:** Sean Ryan
 
 ## Purpose
@@ -20,7 +22,7 @@ This task assigns one of six emotion labels to each message in the supplied data
 To run the analysis:
 
 1. Open the notebook in Google Colab and select **Runtime → Change runtime type → T4 GPU**.
-2. Mount Google Drive when prompted and put `emotion.csv` in `MyDrive/Text analysis for Data Science/Lab 1` (or edit `COLAB_LAB_DIR` to its actual location).
+2. When the setup cell asks to mount Google Drive, approve it. The file is in `MyDrive/Text analysis for Data Science/Lab 1`. If mounting fails, the same cell opens an upload dialog; select `emotion.csv` from your computer. You can download it from the course Drive folder first if needed.
 3. Run all cells from top to bottom. The first cell installs the pinned `transformers` version; the first model run downloads the two pinned checkpoints. Keep the random seed and split unchanged to reproduce the comparisons. In a local run, place `emotion.csv` beside the notebook instead.
 
 ## 1. Data and tokenization
