@@ -20,7 +20,7 @@ This task assigns one of six emotion labels to each message in the supplied data
 To run the analysis:
 
 1. Open the notebook in Google Colab and select **Runtime → Change runtime type → T4 GPU**.
-2. Mount Google Drive when prompted and put `emotion.csv` in `MyDrive/DSA495-2026/Labs/Lab 1` (or edit `COLAB_LAB_DIR` to its actual location).
+2. Mount Google Drive when prompted and put `emotion.csv` in `MyDrive/Text analysis for Data Science/Lab 1` (or edit `COLAB_LAB_DIR` to its actual location).
 3. Run all cells from top to bottom. The first cell installs the pinned `transformers` version; the first model run downloads the two pinned checkpoints. Keep the random seed and split unchanged to reproduce the comparisons. In a local run, place `emotion.csv` beside the notebook instead.
 
 ## 1. Data and tokenization
