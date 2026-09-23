@@ -1,9 +1,9 @@
 # Lab 1: Emotion Classification and Error Analysis
 
-**[Open Lab 1 in Google Colab](https://colab.research.google.com/github/StrokeOfLuck/dsa495-lab1-emotion-classification/blob/main/Lab1.ipynb)**  
+**[Open Lab 1 in Google Colab](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC)**  
 [View the notebook and its saved outputs on GitHub](https://github.com/StrokeOfLuck/dsa495-lab1-emotion-classification/blob/main/Lab1.ipynb)
 
-The repository is private. If Colab asks, authorize access to your GitHub account; running the notebook also needs `emotion.csv` in your Google Drive.
+The GitHub repository is private. The Colab link opens a copy in the same Google Drive folder as `emotion.csv`. Changes saved in that Drive copy do not automatically update the GitHub notebook.
 
 **Student:** Sean Ryan
 
