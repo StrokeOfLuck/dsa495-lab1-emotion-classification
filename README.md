@@ -126,10 +126,10 @@ Against the dataset labels, BART is correct for `00072`, DistilBERT is correct f
 
 **See in Lab1:** [Final comparison](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=f4eb1ebb), [encoder errors](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=80cf4521), and [disagreement outcomes](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=59bd3431). Use the metrics together with the debatable example texts; also revisit the [30-message development table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=927fff42) for the selection limit.
 
-**Response:** Pending discussion. The previous AI-drafted response has been removed.
+**Response:** Given the results and how well they line up with the dataset, I would trust DistilBERT more for this task. It had better accuracy and macro F1 and ran faster than BART. I would still keep in mind that emotions can overlap and that I did not agree with every dataset label. Matching the dataset does not mean every prediction is how I would read the message, and these results do not tell us how it would do on a different dataset.
 
 ## AI-use statement
 
 I used ChatGPT (Codex) to complete the notebook's student code blocks, execute the analysis, and draft the interpretations in this README. Its output was checked against the supplied dataset, the notebook's displayed metrics and error rows, and the messages quoted above. I supplied replacement diagnostic sentences about a non-positive result and feeling nervous but optimistic about leaving Raleigh. Codex corrected spelling and punctuation and suggested capitalizing NOT to make the capitalization feature explicit. Codex reran the example and token-table cells using the pinned tokenizer revisions and updated Q2 to match. The existing model-evaluation outputs were retained; the full notebook was not rerun for this wording change.
 
-For Q1 through Q8, I discussed my interpretations with Codex, which helped edit my wording and add supporting details from the results. Q9 is still pending.
+For Q1 through Q9, I discussed my interpretations with Codex, which helped edit my wording and add supporting details from the results.
