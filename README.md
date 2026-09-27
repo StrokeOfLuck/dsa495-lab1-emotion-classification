@@ -76,7 +76,11 @@ My S1 example is `This is NOT a positive result.` DistilBERT lowercases `This` a
 | emotion_test_01377 | love | joy | 0.9986 | “overjoyed” and “beloved friends” suggest two emotions. |
 | emotion_test_01270 | joy | sadness | 0.9978 | “very saddened” contradicts the reference label. |
 
-**Response:** These high scores are the model's confidence in its predicted class within its own output, not proof that it is correct or well calibrated. “Feel strange” offers little context for deciding between surprise and fear. “Overjoyed” is explicit joy evidence, while “beloved friends” could support love; a message can express more than one emotion despite the single reference label. The joy reference for “very saddened” appears especially debatable, so treating every disagreement as a clear model failure would overstate the evidence.
+**Response:** I think some of the terminology overlaps. Emotions can be more like a Venn diagram than something absolute, so forcing a message into one category can miss that overlap. In `emotion_test_01377`, “overjoyed” sounds like joy, while “beloved friends” also brings in love. I can see why the model and the dataset picked different labels there.
+
+For `emotion_test_01314`, “I feel strange about it” does not give me enough context to confidently choose surprise or fear. I would want to know more about what the person meant. In `emotion_test_01270`, I would probably question the dataset’s joy label because “very saddened” does not read as joy to me. More context might help, but based on the text we have, sadness seems more reasonable.
+
+These examples make me cautious about calling every disagreement a clear model mistake. The reference label could be questionable, the wording could be vague, or more than one emotion could fit. At the same time, the model’s scores near 1 do not prove it is right; we still need to read the message and consider the context.
 
 ## 3. Zero-shot classification
 
