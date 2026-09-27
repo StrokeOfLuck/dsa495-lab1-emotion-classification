@@ -1,5 +1,13 @@
 # Lab 1: Emotion Classification and Error Analysis
 
+## My takeaway
+
+I learned that a good accuracy score does not tell the whole story. Always guessing joy gets about 35% right without really identifying emotions. DistilBERT did better on this dataset because this version was trained for emotion classification, while BART was more like a Swiss Army knife. Descriptions helped BART, but context, capitalization, and cutting messages short can affect what a model receives. Emotions can also overlap like a Venn diagram, so I did not agree with every dataset label. I would trust DistilBERT more for this task, but I would still look at its mistakes instead of accepting every prediction.
+
+**[Download my submission ZIP](https://github.com/StrokeOfLuck/dsa495-lab1-emotion-classification/raw/refs/heads/main/Sean-Ryan-Lab1.zip)**
+
+The ZIP contains `Lab1.ipynb` with its saved GitHub outputs and this `README.md`. It does not include the study guide or course dataset, and it does not automatically sync with my live Colab session.
+
 **[Open Lab 1 in Google Colab](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC)**  
 [View the notebook and its saved outputs on GitHub](https://github.com/StrokeOfLuck/dsa495-lab1-emotion-classification/blob/main/Lab1.ipynb)
 
