@@ -109,7 +109,11 @@ The descriptions helped in this test, but there were only 30 development message
 | DistilBERT emotion classifier | 0.9244 | 0.8803 | 22.82 |
 | BART zero-shot classifier | 0.5365 | 0.4795 | 1085.14 |
 
-**Response:** DistilBERT exceeds BART by 0.3878 in accuracy and 0.4008 in macro-F1 on these messages. BART still exceeds the constant baseline on both metrics. These checkpoints differ in training, task, size, and inference procedure, so this is an operational comparison of the supplied approaches rather than an isolated test of encoder versus encoder-decoder architecture; timings are from this CPU run and exclude model loading.
+**Response:** The way I think of it is that this DistilBERT is specific to the task, while this BART is more like a Swiss Army knife. The DistilBERT checkpoint was trained to classify these six emotions. The BART checkpoint was trained for natural-language inference, and here we use descriptions of the emotions to turn that into zero-shot classification. That makes BART flexible, but it does not mean it will do this particular job as well as the specialized model.
+
+On the same 1,970 evaluation messages, DistilBERT had 0.9244 accuracy and 0.8803 macro-F1, compared with BART’s 0.5365 accuracy and 0.4795 macro-F1. Both beat always guessing joy, which had 0.3503 accuracy and 0.0865 macro-F1. DistilBERT was also much faster in the saved CPU run: 22.82 seconds compared with 1085.14 seconds for BART, or about 18 minutes. These timings exclude model loading.
+
+The task-specific training helps explain why DistilBERT has an advantage here, but this comparison does not isolate that as the only cause. The checkpoints also differ in size and inference procedure, and BART evaluates six label hypotheses per message. I would take this as evidence that this DistilBERT checkpoint works better for this dataset and task, not that every DistilBERT model is better than every BART model.
 
 ### Q8. Four model disagreements
 
