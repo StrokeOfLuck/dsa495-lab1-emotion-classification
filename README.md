@@ -51,7 +51,7 @@ My S1 example is `This is NOT a positive result.` DistilBERT lowercases `This` a
 
 **See in Lab1:** [32-token truncation table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=862f59b2). Compare `retained_text` with `omitted_suffix` for each tokenizer.
 
-**Response:** With the artificial 32-token limit, both tokenizers stop partway through the second repetition of the ordinary train-ride description. The omitted suffix contains the entire decisive contrast, “Despite the ordinary journey, I am terrified about what happens tomorrow.” Removing `terrified` could hide strong evidence for fear, though this demonstration does not establish an actual classification error.
+**Response:** A lot can change if you cut a message short. The meaning could change with more context, so the part that gets left out might be the most important part. In this example, both tokenizers stop partway through the second repetition of the ordinary train-ride description at the artificial 32-token limit. They leave out the entire ending: “Despite the ordinary journey, I am terrified about what happens tomorrow.” Without that ending, the model loses the clearest clue for fear and only sees the earlier description of the trip. That could change its interpretation, although this example shows what text was removed, not an actual change in the model’s prediction.
 
 ## 2. Specialized encoder classification
 
