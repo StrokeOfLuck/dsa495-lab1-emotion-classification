@@ -64,7 +64,7 @@ My S1 example is `This is NOT a positive result.` DistilBERT lowercases `This` a
 | Always predict joy | 0.3503 | 0.0865 | N/A |
 | DistilBERT emotion classifier | 0.9244 | 0.8803 | 22.82 |
 
-**Response:** DistilBERT substantially exceeds the constant baseline on both metrics. Its lowest recall is for surprise: 0.7541 over 61 messages (46 correct), so aggregate accuracy would conceal the weaker performance on this rare class.
+**Response:** It sounds like the model has a weak area when it comes to identifying surprise, and that is a limitation we need to understand. DistilBERT does much better than always guessing joy: its accuracy is 0.9244 compared with 0.3503, and its macro-F1 is 0.8803 compared with 0.0865. But the strong overall result does not mean it handles every emotion equally well. Surprise has its lowest recall, at 0.7541: it correctly identifies 46 of the 61 surprise messages and misses 15. I would look at the results for each emotion instead of letting the overall accuracy hide that weak area. These results show a limitation on this dataset, not proof that the model always struggles with surprise in every setting.
 
 ### Q5. Three encoder errors
 
