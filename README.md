@@ -31,7 +31,11 @@ To run the analysis:
 
 **See in Lab1:** [Split-count table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=c433329a). Read the `development`, `evaluation`, and `evaluation_percent` columns, especially joy and surprise.
 
-**Response:** The seed-495 sample has 30 development messages, five from each emotion, and 1,970 evaluation messages. Surprise is least common in evaluation (61 messages, 3.10%), while joy has 690 (35.03%). Predicting only joy therefore reaches 35.03% accuracy while recognizing none of the other five classes; macro-F1 and per-class recall help expose that failure.
+**Response:** We set aside 30 development messages, five for each emotion, and used the remaining 1,970 for evaluation. Joy has 690 evaluation messages (35.03%), while surprise has only 61 (3.10%).
+
+I wouldn’t call that a good model because it gives the same response every time. If it always sees joy, it isn’t really identifying the emotion in the message. It gets about 35% right because joy is common in the dataset, but that accuracy hides the fact that it misses every other emotion.
+
+That is why I would also look at macro-F1 and recall for each emotion instead of relying only on accuracy.
 
 ### Q2. What do the tokenizers receive?
 
