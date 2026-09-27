@@ -93,7 +93,11 @@ These examples make me cautious about calling every disagreement a clear model m
 | A: emotion names | 0.5000 | 0.4644 |
 | B: expanded descriptions | 0.5667 | 0.5523 |
 
-**Response:** The prespecified higher-macro-F1 rule selected B, the expanded descriptions (0.5523 versus 0.4644). For `emotion_test_00332`, “feel humiliated” changed from surprise under A to sadness under B, matching the reference. Because the development set contains only five messages per class, a few examples can swing macro-F1 and the chosen wording may not be the best formulation on new data.
+**Response:** I think the descriptions help because context helps a lot. Giving BART “fear or anxiety” instead of just “fear” gives it a fuller idea of what we mean by that label. It adds detail to the label, even though the message itself stays the same.
+
+In this development test, the expanded descriptions had a macro-F1 of 0.5523 compared with 0.4644 for the emotion names alone. That is why the rule of choosing the higher development macro-F1 selected formulation B before evaluation. For `emotion_test_00332`, the message with “feel humiliated” changed from surprise to sadness, which matched the reference label.
+
+The descriptions helped in this test, but there were only 30 development messages, five per emotion. A few changed predictions could make a big difference, so this does not show that longer descriptions will always work better on new messages.
 
 ### Q7. Final model comparison
 
