@@ -127,24 +127,26 @@ In my S1, `This is NOT a positive result.`, DistilBERT lowercases `NOT`, while B
 | emotion_test_00098 | anger | fear | sadness | Neither |
 | emotion_test_00004 | sadness | sadness | surprise | DistilBERT |
 
-**Response:** For `00098`, I think anger, fear, and sadness could all overlap. It is the Venn diagram problem again. I would need more context to pick one.
+**Response:** For `00002`, I think love fits better because when you love someone, you do not want them to hurt. “I never make her separate from me” supports BART's love prediction. “Ashamed” could suggest sadness, which DistilBERT chose, but that is not how I read the message overall.
+
+For `00098`, I think the sentence is a combination of emotions. “My heart is tortured” could suggest sadness through emotional pain, while “what I have done” could suggest fear about consequences. Those are possible readings of BART's sadness and DistilBERT's fear predictions, not proof of what caused them. It is the Venn diagram problem again, and I would need more context to choose one.
 
 For `00072`, “feels weird” does not really sound like fear to me. I am not sure surprise is right either, but DistilBERT seems off here.
 
-For `00002`, I personally think love fits better. DistilBERT matches the dataset’s sadness label, but that is not how I read the message.
-
 For `00004`, maybe surprise, but I am not sure from that short phrase.
 
-Against the dataset labels, BART is correct for `00072`, DistilBERT is correct for `00002` and `00004`, and neither is correct for `00098`. My personal reading does not always agree with those labels.
+The table scores correctness against the dataset labels. My personal reading does not always agree with those labels.
 
 ### Q9. Recommendation and limitations
 
 **See in Lab1:** [Final comparison](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=f4eb1ebb), [encoder errors](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=80cf4521), and [disagreement outcomes](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=59bd3431). Use the metrics together with the debatable example texts; also revisit the [30-message development table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=927fff42) for the selection limit.
 
-**Response:** Given the results and how well they line up with the dataset, I would trust DistilBERT more for this task. It had better accuracy and macro F1 and ran faster than BART. I would still keep in mind that emotions can overlap and that I did not agree with every dataset label. Matching the dataset does not mean every prediction is how I would read the message, and these results do not tell us how it would do on a different dataset.
+**Response:** Given the results, I would trust DistilBERT more for this task: its accuracy was 92.44% compared with BART's 53.65%, and its macro F1 was 0.8803 compared with 0.4795. It also ran faster in the saved CPU run. I would still remember the message labeled joy that said “very saddened,” because matching the dataset does not always match how I read the text. One limitation is that single labels do not capture how emotions can overlap or how missing context changes a message. Another is that results on this dataset do not establish how either model would perform on different kinds of text.
 
 ## AI-use statement
 
 I used ChatGPT (Codex) to complete the notebook's student code blocks, execute the analysis, and draft the interpretations in this README. Its output was checked against the supplied dataset, the notebook's displayed metrics and error rows, and the messages quoted above. I supplied replacement diagnostic sentences about a non-positive result and feeling nervous but optimistic about leaving Raleigh. Codex corrected spelling and punctuation and suggested capitalizing NOT to make the capitalization feature explicit. Codex reran the example and token-table cells using the pinned tokenizer revisions and updated Q2 to match. The existing model-evaluation outputs were retained; the full notebook was not rerun for this wording change.
 
 For Q1 through Q9, I discussed my interpretations with Codex, which helped edit my wording and add supporting details from the results.
+
+For the final revision, I explained why I read the first Q8 message as love and the second as a combination of emotions. Codex added possible textual support for the alternative model labels and the saved comparison numbers to Q9. Codex checked these additions against the notebook's example texts and saved results, and verified that the submission ZIP contains the current notebook and README. This revision did not rerun model inference.
