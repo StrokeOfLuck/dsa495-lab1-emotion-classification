@@ -9,6 +9,13 @@ The Colab link opens a copy in the same Google Drive folder as `emotion.csv`. Ch
 
 **Student:** Sean Ryan
 
+## My reference links
+
+- [Trump–Iran: Emotion & Rhetoric comparison](https://strokeofluck.github.io/trump-iran-two-perspectives/): my project applying the two models to political posts.
+- [Download the Lab 1 study guide](https://github.com/StrokeOfLuck/dsa495-lab1-emotion-classification/raw/refs/heads/main/study-guide.html): save the HTML file and open it in a browser. It includes code, saved outputs, figures, and my revised answers in one page. It works offline and does not require Colab or a running local server.
+
+The guide uses the notebook outputs saved on GitHub, not the latest live Colab session. It is a reference file, separate from the required lab submission.
+
 ## Purpose
 
 This task assigns one of six emotion labels to each message in the supplied dataset. Comparing a constant joy prediction, a DistilBERT checkpoint trained for emotion classification, and a BART natural-language-inference checkpoint used with zero-shot candidate labels shows how task-specific training and label wording affect performance on the same held-out messages.
