@@ -31,27 +31,25 @@ To run the analysis:
 
 **See in Lab1:** [Split-count table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=c433329a). Read the `development`, `evaluation`, and `evaluation_percent` columns, especially joy and surprise.
 
-**Response:** We set aside 30 development messages, five for each emotion, and used the remaining 1,970 for evaluation. Joy has 690 evaluation messages (35.03%), while surprise has only 61 (3.10%).
+**Response:** We used 30 development messages, five per emotion, and 1,970 evaluation messages. Joy makes up 690 (35.03%) and surprise only 61 (3.10%) of the evaluation messages.
 
 I wouldn’t call that a good model because it gives the same response every time. If it always sees joy, it isn’t really identifying the emotion in the message. It gets about 35% right because joy is common in the dataset, but that accuracy hides the fact that it misses every other emotion.
-
-That is why I would also look at macro-F1 and recall for each emotion instead of relying only on accuracy.
 
 ### Q2. What do the tokenizers receive?
 
 **See in Lab1:** [Diagnostic messages I1–S2](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=73f57fce) and [token table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=71ff72e3). Compare I3 with I4, then S1 and S2 across both tokenizers; inspect `token_strings` and both length columns.
 
-**Response:** Capitalization can mean emphasis, and emphasizing a word can change how a sentence comes across in a positive or negative way. For example, “I hope you’re HAPPY” sounds almost angry or sarcastic to me, while “I hope you’re happy” sounds softer. The surrounding context still matters, but lowercasing everything removes that capitalization cue. Keeping the capitals does not automatically mean the model understands the tone correctly.
+**Response:** Capitalization can mean emphasis. “I hope you’re HAPPY” sounds almost angry to me, while “I hope you’re happy” sounds softer. Lowercasing removes that emphasis cue, although the context still matters.
 
-In the lab’s I3 and I4 examples, DistilBERT turns `HAPPY` into `happy`, so both sentences have the same seven content tokens. BART keeps the capitalization and splits `HAPPY` into `ĠH`, `APP`, and `Y`, giving it nine content tokens compared with seven for the lowercase version.
+In I3 and I4, DistilBERT gives `HAPPY` and `happy` the same seven content tokens. BART splits `HAPPY` into `ĠH`, `APP`, and `Y`, giving nine tokens instead of seven.
 
-My S1 example is `This is NOT a positive result.` DistilBERT lowercases `This` and `NOT`, while BART keeps `This` and `ĠNOT`. Both have seven content tokens and nine with special tokens. The word `not` is still there in DistilBERT; what gets lost is the extra emphasis from the capitals. In S2, `I am nervous but optimistic about leaving Raleigh.`, DistilBERT lowercases `I` and `Raleigh`, while BART keeps their capitalization. Both have nine content tokens and eleven with special tokens, and both keep `nervous` and `optimistic` as single tokens. S1 shows capitalization and negation, while S2 also gives an example of mixed emotions.
+In my S1, `This is NOT a positive result.`, DistilBERT lowercases `NOT`, while BART keeps it capitalized. Both have seven content tokens and nine with special tokens. In S2, `I am nervous but optimistic about leaving Raleigh.`, DistilBERT lowercases `I` and `Raleigh`, while BART keeps the capitals. Both have nine content tokens and eleven with special tokens. S1 shows emphasis and negation; S2 also has mixed emotions.
 
 ### Q3. Truncation
 
 **See in Lab1:** [32-token truncation table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=862f59b2). Compare `retained_text` with `omitted_suffix` for each tokenizer.
 
-**Response:** A lot can change if you cut a message short. The meaning could change with more context, so the part that gets left out might be the most important part. In this example, both tokenizers stop partway through the second repetition of the ordinary train-ride description at the artificial 32-token limit. They leave out the entire ending: “Despite the ordinary journey, I am terrified about what happens tomorrow.” Without that ending, the model loses the clearest clue for fear and only sees the earlier description of the trip. That could change its interpretation, although this example shows what text was removed, not an actual change in the model’s prediction.
+**Response:** A lot can change if you cut a message short. The meaning could change with more context. At the 32-token limit, both tokenizers stop during the repeated train-ride description and leave out “I am terrified about what happens tomorrow.” That removes the clearest clue for fear. We can see the missing context here, but we haven’t shown that the prediction actually changed.
 
 ## 2. Specialized encoder classification
 
@@ -64,7 +62,7 @@ My S1 example is `This is NOT a positive result.` DistilBERT lowercases `This` a
 | Always predict joy | 0.3503 | 0.0865 | N/A |
 | DistilBERT emotion classifier | 0.9244 | 0.8803 | 22.82 |
 
-**Response:** It sounds like the model has a weak area when it comes to identifying surprise, and that is a limitation we need to understand. DistilBERT does much better than always guessing joy: its accuracy is 0.9244 compared with 0.3503, and its macro-F1 is 0.8803 compared with 0.0865. But the strong overall result does not mean it handles every emotion equally well. Surprise has its lowest recall, at 0.7541: it correctly identifies 46 of the 61 surprise messages and misses 15. I would look at the results for each emotion instead of letting the overall accuracy hide that weak area. These results show a limitation on this dataset, not proof that the model always struggles with surprise in every setting.
+**Response:** It sounds like the model has a weak area in identifying surprise, so that is a limitation to understand. It beats the joy baseline on accuracy and macro-F1, but it only catches 46 of 61 surprise messages—about 75% recall, its lowest. The overall accuracy does not tell the whole story.
 
 ### Q5. Three encoder errors
 
@@ -76,11 +74,7 @@ My S1 example is `This is NOT a positive result.` DistilBERT lowercases `This` a
 | emotion_test_01377 | love | joy | 0.9986 | “overjoyed” and “beloved friends” suggest two emotions. |
 | emotion_test_01270 | joy | sadness | 0.9978 | “very saddened” contradicts the reference label. |
 
-**Response:** I think some of the terminology overlaps. Emotions can be more like a Venn diagram than something absolute, so forcing a message into one category can miss that overlap. In `emotion_test_01377`, “overjoyed” sounds like joy, while “beloved friends” also brings in love. I can see why the model and the dataset picked different labels there.
-
-For `emotion_test_01314`, “I feel strange about it” does not give me enough context to confidently choose surprise or fear. I would want to know more about what the person meant. In `emotion_test_01270`, I would probably question the dataset’s joy label because “very saddened” does not read as joy to me. More context might help, but based on the text we have, sadness seems more reasonable.
-
-These examples make me cautious about calling every disagreement a clear model mistake. The reference label could be questionable, the wording could be vague, or more than one emotion could fit. At the same time, the model’s scores near 1 do not prove it is right; we still need to read the message and consider the context.
+**Response:** I think some of the terminology overlaps. Emotions can be more like a Venn diagram than something absolute. “Overjoyed” and “beloved friends” could fit joy and love. “I feel strange about it” needs more context before I would choose surprise or fear. “Very saddened” does not read as joy to me, so I would question that dataset label, though more context might help. A high model score alone does not settle which interpretation is right.
 
 ## 3. Zero-shot classification
 
@@ -93,11 +87,7 @@ These examples make me cautious about calling every disagreement a clear model m
 | A: emotion names | 0.5000 | 0.4644 |
 | B: expanded descriptions | 0.5667 | 0.5523 |
 
-**Response:** I think the descriptions help because context helps a lot. Giving BART “fear or anxiety” instead of just “fear” gives it a fuller idea of what we mean by that label. It adds detail to the label, even though the message itself stays the same.
-
-In this development test, the expanded descriptions had a macro-F1 of 0.5523 compared with 0.4644 for the emotion names alone. That is why the rule of choosing the higher development macro-F1 selected formulation B before evaluation. For `emotion_test_00332`, the message with “feel humiliated” changed from surprise to sadness, which matched the reference label.
-
-The descriptions helped in this test, but there were only 30 development messages, five per emotion. A few changed predictions could make a big difference, so this does not show that longer descriptions will always work better on new messages.
+**Response:** I think the descriptions help because context helps a lot. “Fear or anxiety” gives more detail than just “fear.” B was selected because it had the higher development macro-F1 in the table. For “feel humiliated,” it changed surprise to sadness and matched the reference. That helped here, but 30 messages is too small a test to say descriptions always work better.
 
 ### Q7. Final model comparison
 
@@ -109,11 +99,7 @@ The descriptions helped in this test, but there were only 30 development message
 | DistilBERT emotion classifier | 0.9244 | 0.8803 | 22.82 |
 | BART zero-shot classifier | 0.5365 | 0.4795 | 1085.14 |
 
-**Response:** The way I think of it is that this DistilBERT is specific to the task, while this BART is more like a Swiss Army knife. The DistilBERT checkpoint was trained to classify these six emotions. The BART checkpoint was trained for natural-language inference, and here we use descriptions of the emotions to turn that into zero-shot classification. That makes BART flexible, but it does not mean it will do this particular job as well as the specialized model.
-
-On the same 1,970 evaluation messages, DistilBERT had 0.9244 accuracy and 0.8803 macro-F1, compared with BART’s 0.5365 accuracy and 0.4795 macro-F1. Both beat always guessing joy, which had 0.3503 accuracy and 0.0865 macro-F1. DistilBERT was also much faster in the saved CPU run: 22.82 seconds compared with 1085.14 seconds for BART, or about 18 minutes. These timings exclude model loading.
-
-The task-specific training helps explain why DistilBERT has an advantage here, but this comparison does not isolate that as the only cause. The checkpoints also differ in size and inference procedure, and BART evaluates six label hypotheses per message. I would take this as evidence that this DistilBERT checkpoint works better for this dataset and task, not that every DistilBERT model is better than every BART model.
+**Response:** The way I think of it is that this DistilBERT is specific to the task, while this BART is more like a Swiss Army knife. DistilBERT did better on accuracy and macro-F1 and was much faster in this test. Both beat always guessing joy. That does not mean DistilBERT is better for every task. These are different checkpoints and ways of classifying text, so this is not just a test of their architectures. The times shown are from the saved CPU run and exclude model loading.
 
 ### Q8. Four model disagreements
 
@@ -126,14 +112,16 @@ The task-specific training helps explain why DistilBERT has an advantage here, b
 | emotion_test_00098 | anger | fear | sadness | Neither |
 | emotion_test_00004 | sadness | sadness | surprise | DistilBERT |
 
-**Response:** In `emotion_test_00072`, “feels weird” offers BART a plausible surprise cue, while unfamiliar bodily coordination may have led DistilBERT toward fear; the reference favors BART, though the message does not explicitly name an emotion. In `emotion_test_00098`, “heart is tortured by what i have done” supports DistilBERT's fear and BART's sadness or guilt readings, but it does not plainly express the reference anger. The “ashamed” wording in `emotion_test_00002` supports sadness despite its relational context, while the brief “vain” message in `emotion_test_00004` leaves little context. Across all disagreements, DistilBERT alone is correct in 812, BART alone in 48, and neither in 44; these cases warrant reading the text, not merely counting labels.
+**Response:** Pending discussion. The previous AI-drafted response has been removed.
 
 ### Q9. Recommendation and limitations
 
 **See in Lab1:** [Final comparison](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=f4eb1ebb), [encoder errors](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=80cf4521), and [disagreement outcomes](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=59bd3431). Use the metrics together with the debatable example texts; also revisit the [30-message development table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=927fff42) for the selection limit.
 
-**Response:** I would use the specialized DistilBERT classifier for this fixed six-emotion task: its 0.9244 accuracy and 0.8803 macro-F1 exceed BART's 0.5365 and 0.4795, and it ran in 22.82 rather than 1085.14 seconds on this CPU. The 812 versus 48 single-model wins reinforce that choice, although BART recognizes the “feels weird” surprise example that DistilBERT misses. The labeled data contain debatable single-emotion references, such as joy for “very saddened”; these metrics cannot establish correctness for nuanced or multiple emotions. The evaluation uses one source test split and one tiny development selection, so it does not establish performance on other domains, new labels, or alternative prompt and checkpoint choices. Model scores were not calibrated here, and the runtime comparison excludes checkpoint loading and depends on hardware.
+**Response:** Pending discussion. The previous AI-drafted response has been removed.
 
 ## AI-use statement
 
 I used ChatGPT (Codex) to complete the notebook's student code blocks, execute the analysis, and draft the interpretations in this README. Its output was checked against the supplied dataset, the notebook's displayed metrics and error rows, and the messages quoted above. I supplied replacement diagnostic sentences about a non-positive result and feeling nervous but optimistic about leaving Raleigh. Codex corrected spelling and punctuation and suggested capitalizing NOT to make the capitalization feature explicit. Codex reran the example and token-table cells using the pinned tokenizer revisions and updated Q2 to match. The existing model-evaluation outputs were retained; the full notebook was not rerun for this wording change.
+
+For Q1–Q7, I discussed my interpretations with Codex, which helped edit my wording and add supporting details from the results. Q8 and Q9 are still pending.
