@@ -3,7 +3,7 @@
 **[Open Lab 1 in Google Colab](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC)**  
 [View the notebook and its saved outputs on GitHub](https://github.com/StrokeOfLuck/dsa495-lab1-emotion-classification/blob/main/Lab1.ipynb)
 
-The GitHub repository is private. The Colab link opens a copy in the same Google Drive folder as `emotion.csv`. Changes saved in that Drive copy do not automatically update the GitHub notebook.
+The GitHub repository is private. The Colab link opens a copy in the same Google Drive folder as `emotion.csv`. Changes saved in that Drive copy do not automatically update the GitHub notebook. The student examples and Q2 were updated in the GitHub copy on September 26, 2026; the linked Drive copy has not been synchronized with that edit.
 
 **Before rerunning:** Choose **Runtime → Run all** from the top. The “See in Lab1” links only navigate to cells; a linked cell may fail if its setup cells have not run. If Drive mounting fails, upload `emotion.csv` when prompted.
 
@@ -37,7 +37,7 @@ To run the analysis:
 
 **See in Lab1:** [Diagnostic messages I1–S2](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=73f57fce) and [token table](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC#scrollTo=71ff72e3). Compare I3 with I4, then S1 and S2 across both tokenizers; inspect `token_strings` and both length columns.
 
-**Response:** In I3, DistilBERT lowercases `HAPPY` to `happy`, making its seven content tokens identical to I4; BART preserves the capitalized spelling and splits it into `ĠH`, `APP`, `Y` (nine versus seven content tokens). In my S1 (`I am NOT okay with this result 😟.`), DistilBERT lowercases `NOT` and maps the emoji to `[UNK]`, whereas BART retains `ĠNOT` and represents the emoji with byte-level pieces. My S2 also splits `bittersweet` differently: DistilBERT uses `bitter`, `##sw`, `##eet`; BART uses `Ġbitters`, `weet`. Both add two special tokens to each of these examples.
+**Response:** In I3, DistilBERT lowercases `HAPPY` to `happy`, making its seven content tokens identical to I4; BART preserves the capitalized spelling and splits it into `ĠH`, `APP`, `Y` (nine versus seven content tokens). In my S1 (`This is NOT a positive result.`), DistilBERT lowercases `This` and `NOT`, whereas BART preserves `This` and `ĠNOT`. Both produce seven content tokens and nine tokens with special tokens. In S2 (`I am nervous but optimistic about leaving Raleigh.`), DistilBERT lowercases `I` and `Raleigh`, whereas BART preserves `I` and `ĠRaleigh`. Both produce nine content tokens and eleven with special tokens; `nervous` and `optimistic` each remain a single token. The examples demonstrate case handling and negation, while S2 also expresses mixed emotions.
 
 ### Q3. Truncation
 
@@ -116,4 +116,4 @@ To run the analysis:
 
 ## AI-use statement
 
-I used ChatGPT (Codex) to draft the two diagnostic examples, complete the notebook's student code blocks, execute the analysis, and draft the interpretations in this README. Its output was checked against the supplied dataset, the notebook's displayed metrics and error rows, and the messages quoted above. The two examples are AI drafted and should be replaced with my own examples before submission if the requirement for student-written examples means independently authored text; I should rerun the notebook and update Q2 after replacing them.
+I used ChatGPT (Codex) to complete the notebook's student code blocks, execute the analysis, and draft the interpretations in this README. Its output was checked against the supplied dataset, the notebook's displayed metrics and error rows, and the messages quoted above. I supplied replacement diagnostic sentences about a non-positive result and feeling nervous but optimistic about leaving Raleigh. Codex corrected spelling and punctuation and suggested capitalizing NOT to make the capitalization feature explicit. Codex reran the example and token-table cells using the pinned tokenizer revisions and updated Q2 to match. The existing model-evaluation outputs were retained; the full notebook was not rerun for this wording change.
