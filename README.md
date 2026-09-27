@@ -112,7 +112,15 @@ In my S1, `This is NOT a positive result.`, DistilBERT lowercases `NOT`, while B
 | emotion_test_00098 | anger | fear | sadness | Neither |
 | emotion_test_00004 | sadness | sadness | surprise | DistilBERT |
 
-**Response:** Pending discussion. The previous AI-drafted response has been removed.
+**Response:** For `00098`, I think anger, fear, and sadness could all overlap. It is the Venn diagram problem again. I would need more context to pick one.
+
+For `00072`, “feels weird” does not really sound like fear to me. I am not sure surprise is right either, but DistilBERT seems off here.
+
+For `00002`, I personally think love fits better. DistilBERT matches the dataset’s sadness label, but that is not how I read the message.
+
+For `00004`, maybe surprise, but I am not sure from that short phrase.
+
+Against the dataset labels, BART is correct for `00072`, DistilBERT is correct for `00002` and `00004`, and neither is correct for `00098`. My personal reading does not always agree with those labels.
 
 ### Q9. Recommendation and limitations
 
@@ -124,4 +132,4 @@ In my S1, `This is NOT a positive result.`, DistilBERT lowercases `NOT`, while B
 
 I used ChatGPT (Codex) to complete the notebook's student code blocks, execute the analysis, and draft the interpretations in this README. Its output was checked against the supplied dataset, the notebook's displayed metrics and error rows, and the messages quoted above. I supplied replacement diagnostic sentences about a non-positive result and feeling nervous but optimistic about leaving Raleigh. Codex corrected spelling and punctuation and suggested capitalizing NOT to make the capitalization feature explicit. Codex reran the example and token-table cells using the pinned tokenizer revisions and updated Q2 to match. The existing model-evaluation outputs were retained; the full notebook was not rerun for this wording change.
 
-For Q1–Q7, I discussed my interpretations with Codex, which helped edit my wording and add supporting details from the results. Q8 and Q9 are still pending.
+For Q1 through Q8, I discussed my interpretations with Codex, which helped edit my wording and add supporting details from the results. Q9 is still pending.
