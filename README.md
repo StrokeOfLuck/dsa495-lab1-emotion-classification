@@ -3,7 +3,7 @@
 **[Open Lab 1 in Google Colab](https://colab.research.google.com/drive/1EMk1gvCePZZHKLl1fpkrFrfNPGG5FWeC)**  
 [View the notebook and its saved outputs on GitHub](https://github.com/StrokeOfLuck/dsa495-lab1-emotion-classification/blob/main/Lab1.ipynb)
 
-The GitHub repository is private. The Colab link opens a copy in the same Google Drive folder as `emotion.csv`. Changes saved in that Drive copy do not automatically update the GitHub notebook. The student examples and Q2 were updated in the GitHub copy on September 26, 2026; the linked Drive copy has not been synchronized with that edit.
+The Colab link opens a copy in the same Google Drive folder as `emotion.csv`. Changes saved in that Drive copy do not automatically update the GitHub notebook. The student examples and Q2 were updated in the GitHub copy on September 26, 2026; the linked Drive copy has not been synchronized with that edit.
 
 **Before rerunning:** Choose **Runtime → Run all** from the top. The “See in Lab1” links only navigate to cells; a linked cell may fail if its setup cells have not run. If Drive mounting fails, upload `emotion.csv` when prompted.
 
